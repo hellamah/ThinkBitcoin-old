@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\DTOMBMyFunds.cs" />
+    <Compile Include="DTO\MBOperation.cs" />
     <Compile Include="DTO\MBTrades.cs" />
     <Compile Include="DTO\DTOMBOperation.cs" />
     <Compile Include="DTO\DTOMBOrder.cs" />
