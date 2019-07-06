@@ -1,12 +1,4 @@
-﻿#region Credits 
-/*
- * Author:          Wesdras Alves 
- * Version:         1.0 
- * Email:           wesdras.alves@gmail.com
- * Description:     Class MBAccess, é a class que encapsula as chamadas publicas e 
- *                  privadas da API do Mercado Bitcoin aplicando os devidos filtros. 
- */
-#endregion
+﻿using Dotend.MBTrade.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Dotend.MBTrade
 {
-    internal class MBAccess
+    public class MBAccess
     {
         const string _REQUEST_HOST = "https://www.mercadobitcoin.net";
         const string _REQUEST_PATH = "/tapi/v3/";
 
         #region "Properties"
 
-        private string _privateKey = "";
-        private string _publicKey = "";
-        private string _pin = "";
+        private string _privateKey = "aad7a2985cab0ae996cf53e27121b447b8abc2788285ef1ef8dca1983d015d69"; 
+        private string _publicKey = "b074bdc61a15f3f4fdf8f5d9cbfd1768";
+        private string _pin = "8238";
         private string _error;
 
         internal string Error
@@ -51,6 +43,29 @@ namespace Dotend.MBTrade
         }
 
         #endregion
+
+        /// <summary>
+        /// Metodo responsavel por exibir o saldo da conta
+        /// via POST
+        /// </summary>
+        /// montado pela função bind</param>
+        /// <returns>Paramtros no formato a serem evniados para a API do MercadoBitcoin</returns>
+        public DTOMBMyFunds getMyInfoAccount()
+        {
+            string _return = string.Empty;
+
+            try
+            {
+                //_return = bindParmeters(MBEnumerables.MethodAPI.getInfo, "");
+                _return = getRequestPrivate(MBEnumerables.MethodAPI.getInfo);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return new DTOMBMyFunds(_return);
+        }
 
         /// <summary>
         /// Metodo responsavel por montar os parâmetros que seram enviados ao servidor

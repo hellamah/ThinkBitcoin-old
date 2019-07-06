@@ -1,29 +1,10 @@
-﻿#region Credits 
-/*
- * Author:          Wesdras Alves 
- * Version:         1.0 
- * Email:           wesdras.alves@gmail.com
- * Description:     Class MBTAPI, é a class a ser usada pelo aplicação do usuário final, 
- *                  a class possui vários metodos que facilitam no uso da API de Trade 
- *                  e acesso a API publica do Mercado BitCoin
- */
-#endregion
+﻿using Dotend.MBTrade.DTO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using System.Net;
-using System.Security.Cryptography;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
-using System.Diagnostics;
-using System.Web;
+using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Web.Script.Serialization;
-using Dotend.MBTrade.DTO;
-
 
 namespace Dotend.MBTrade
 {
@@ -104,6 +85,31 @@ namespace Dotend.MBTrade
                 this._error = ex.Message;
             }
             return _orderBook;
+        }
+
+
+        /// <summary>
+        /// Função responsavel por buscar a lista das ultimas ordens que estão aguardando serem executadas no MercadoBitcoin
+        /// Essa função retorna tanto as ordens de compra quanto a de venda abertas. 
+        /// </summary>
+        /// <returns></returns>
+        public List<MBTrades> getLastBtcTrades()
+        {
+            List<MBTrades> _trades = null;
+            try
+            {
+                string jsonString = _mbAcess.getPublicDataMBbyMethod(MBEnumerables.SearchType.Trades, MBEnumerables.CoinType.Bit);
+                DataContractJsonSerializer desser = new DataContractJsonSerializer(typeof(List<MBTrades>));
+                MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonString));
+
+                _trades = (List<MBTrades>)desser.ReadObject(ms);
+            }
+            catch (Exception ex)
+            {
+                this._error = ex.Message;
+                
+            }
+            return _trades;
         }
 
         #endregion

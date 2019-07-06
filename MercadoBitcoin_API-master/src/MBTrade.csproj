@@ -30,8 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Insight.Database.Core, Version=6.2.9.0, Culture=neutral, PublicKeyToken=f35c6ef87e515afc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Core.6.2.9\lib\net451\Insight.Database.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Insight.Database.Json, Version=6.2.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Insight.Database.Json.6.2.9\lib\net451\Insight.Database.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\DTOMBMyFunds.cs" />
+    <Compile Include="DTO\MBTrades.cs" />
     <Compile Include="DTO\DTOMBOperation.cs" />
     <Compile Include="DTO\DTOMBOrder.cs" />
     <Compile Include="DTO\DTOMB.cs" />
@@ -50,6 +64,10 @@
     <Compile Include="MBEnumerables.cs" />
     <Compile Include="MBTapi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
