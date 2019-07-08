@@ -29,6 +29,7 @@ namespace Dotend.MBTrade
         }
         public enum MethodAPI
         {
+            list_orderbook,
             getInfo,
             OrderList,
             Buy,

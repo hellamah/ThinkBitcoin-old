@@ -45,7 +45,29 @@ namespace Dotend.MBTrade
         #endregion
 
         /// <summary>
-        /// Metodo responsavel por exibir o saldo da conta
+        /// Metodo responsável por exibir o saldo da conta
+        /// via POST
+        /// </summary>
+        /// montado pela função bind</param>
+        /// <returns>Paramtros no formato a serem evniados para a API do MercadoBitcoin</returns>
+        public DTOMBMyFunds getMy20Orders()
+        {
+            string _return = string.Empty;
+
+            try
+            {
+                _return = getRequestPrivate(MBEnumerables.MethodAPI.list_orderbook, "'coin_pair' : 'BRLBTC', 'full' : 'false'");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return new DTOMBMyFunds(_return);
+        }
+
+        /// <summary>
+        /// Metodo responsável por exibir o saldo da conta
         /// via POST
         /// </summary>
         /// montado pela função bind</param>
@@ -56,7 +78,6 @@ namespace Dotend.MBTrade
 
             try
             {
-                //_return = bindParmeters(MBEnumerables.MethodAPI.getInfo, "");
                 _return = getRequestPrivate(MBEnumerables.MethodAPI.getInfo);
             }
             catch (Exception ex)
@@ -89,6 +110,9 @@ namespace Dotend.MBTrade
                 {
                     case MBEnumerables.MethodAPI.getInfo:
                         _method = "get_account_info";
+                        break;
+                    case MBEnumerables.MethodAPI.list_orderbook:
+                        _method = "list_orderbook";
                         break;
                     case MBEnumerables.MethodAPI.OrderList:
                         _method = "list_orders";

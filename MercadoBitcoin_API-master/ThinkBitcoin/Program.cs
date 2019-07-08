@@ -19,7 +19,7 @@ namespace ThinkBitcoin
             MBTAPI mbTapi = new MBTAPI("", "", "");
             MBAccess mbAccess = new MBAccess();
             MBOperation mbOp = new MBOperation();
-
+                DTOMBMyFunds dddd = mbAccess.getMy20Orders();
             DTOMBMyFunds myFounds = mbAccess.getMyInfoAccount();
 
             List<MBTrades> trades = mbTapi.getLastBtcTrades().GetRange(0, 20); //Lista das ultimas 20 ordens de execução
@@ -36,7 +36,7 @@ namespace ThinkBitcoin
                 
                 
                 
-                ades.Where(x => x._type == MBEnumerables.OperationType.Buy).Sum(x => x.amount);
+            //    ades.Where(x => x._type == MBEnumerables.OperationType.Buy).Sum(x => x.amount);
             double sTotal = trades.Where(x => x._type == MBEnumerables.OperationType.Sell).Sum(x => x.amount);
             double total = trades.Sum(x => x.amount);
             int bCount = 0;
