@@ -130,7 +130,7 @@ namespace Dotend.MBTrade
             DTOMBMyFunds _return;
             string _json;
 
-            _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.getInfo);
+            _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.GetInfo);
 
 
             if (validateJsonReturn(_json))

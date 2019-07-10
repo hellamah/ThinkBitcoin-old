@@ -45,7 +45,7 @@ namespace Dotend.MBTrade
         #endregion
 
         /// <summary>
-        /// Metodo responsável por exibir o saldo da conta
+        /// Metodo responsável por informar as ordens de compra e venda da TAPI informada
         /// via POST
         /// </summary>
         /// montado pela função bind</param>
@@ -54,9 +54,35 @@ namespace Dotend.MBTrade
         {
             string _return = string.Empty;
 
+            string parameters = "&coin_pair=BRLBTC";
+
             try
             {
-                _return = getRequestPrivate(MBEnumerables.MethodAPI.list_orderbook, "'coin_pair' : 'BRLBTC', 'full' : 'false'");
+                _return = getRequestPrivate(MBEnumerables.MethodAPI.MyOrders, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return new DTOMBMyFunds(_return);
+        }
+
+        /// <summary>
+        /// Metodo responsável o livro de ordens
+        /// via POST
+        /// </summary>
+        /// montado pela função bind</param>
+        /// <returns>Paramtros no formato a serem evniados para a API do MercadoBitcoin</returns>
+        public DTOMBMyFunds getListOrderBook()
+        {
+            string _return = string.Empty;
+
+            string parameters = "&coin_pair=BRLBTC&full=false";
+
+            try
+            {
+                _return = getRequestPrivate(MBEnumerables.MethodAPI.ListOrderBook, parameters);
             }
             catch (Exception ex)
             {
@@ -78,7 +104,7 @@ namespace Dotend.MBTrade
 
             try
             {
-                _return = getRequestPrivate(MBEnumerables.MethodAPI.getInfo);
+                _return = getRequestPrivate(MBEnumerables.MethodAPI.GetInfo);
             }
             catch (Exception ex)
             {
@@ -108,10 +134,10 @@ namespace Dotend.MBTrade
 
                 switch (pMethod)
                 {
-                    case MBEnumerables.MethodAPI.getInfo:
+                    case MBEnumerables.MethodAPI.GetInfo:
                         _method = "get_account_info";
                         break;
-                    case MBEnumerables.MethodAPI.list_orderbook:
+                    case MBEnumerables.MethodAPI.ListOrderBook:
                         _method = "list_orderbook";
                         break;
                     case MBEnumerables.MethodAPI.OrderList:
@@ -125,6 +151,9 @@ namespace Dotend.MBTrade
                         break;
                     case MBEnumerables.MethodAPI.CancelOrder:
                         _method = "cancel_order";
+                        break;
+                    case MBEnumerables.MethodAPI.MyOrders:
+                        _method = "get_order";
                         break;
                 }
 

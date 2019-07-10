@@ -29,12 +29,13 @@ namespace Dotend.MBTrade
         }
         public enum MethodAPI
         {
-            list_orderbook,
-            getInfo,
+            ListOrderBook,
+            GetInfo,
             OrderList,
             Buy,
             Sell,
-            CancelOrder
+            CancelOrder,
+            MyOrders
         }
 
         public enum CoinType
