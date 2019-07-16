@@ -44,29 +44,7 @@ namespace Dotend.MBTrade
 
         #endregion
 
-        /// <summary>
-        /// Metodo responsável por informar as ordens de compra e venda da TAPI informada
-        /// via POST
-        /// </summary>
-        /// montado pela função bind</param>
-        /// <returns>Paramtros no formato a serem evniados para a API do MercadoBitcoin</returns>
-        public DTOMBMyFunds getMy20Orders()
-        {
-            string _return = string.Empty;
-
-            string parameters = "&coin_pair=BRLBTC";
-
-            try
-            {
-                _return = getRequestPrivate(MBEnumerables.MethodAPI.MyOrders, parameters);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message, ex);
-            }
-
-            return new DTOMBMyFunds(_return);
-        }
+        
 
         /// <summary>
         /// Metodo responsável o livro de ordens
@@ -295,7 +273,7 @@ namespace Dotend.MBTrade
         /// do MercadoBitcoin</param>
         /// <param name="pType">Se a busca será por Bitcoin ou Litecoin</param>
         /// <returns></returns>
-        internal string getPublicDataMBbyMethod(MBEnumerables.SearchType pTypeSearch, MBEnumerables.CoinType pType)
+        internal string getPublicDataMBbyMethod(MBEnumerables.SearchType pTypeSearch, MBEnumerables.CoinType pType, string pParameters = "")
         {
             string _url = string.Empty;
             string _responseFromServer =string.Empty;
@@ -306,26 +284,23 @@ namespace Dotend.MBTrade
                 switch (pTypeSearch)
                 {
                     case MBEnumerables.SearchType.Ordens:
-                        _url = _REQUEST_HOST + "/api/orderbook{0}";
+                        _url = _REQUEST_HOST + "/api/{0}/orderbook" + pParameters;
                         break;
                     case MBEnumerables.SearchType.Trades:
-                        _url = _REQUEST_HOST + "/api/trades{0}";
-                        break;
-                    case MBEnumerables.SearchType.Infos30m:
-                        _url = _REQUEST_HOST + "/api/v1/ticker{0}";
+                        _url = _REQUEST_HOST + "/api/{0}/trades" + pParameters;
                         break;
                     case MBEnumerables.SearchType.Infos24h:
-                        _url = _REQUEST_HOST + "/api/v2/ticker{0}";
+                        _url = _REQUEST_HOST + "/api/{0}/ticker" + pParameters;
                         break;
                 }
 
                 if (pType == MBEnumerables.CoinType.Bit)
                 {
-                    _url = string.Format(_url, "");
+                    _url = string.Format(_url, "btc");
                 }
                 else
                 {
-                    _url = string.Format(_url, "_litecoin");
+                    _url = string.Format(_url, "ltc");
                 }
 
                 //Criando o request para o servidor pegando o JSON de retorno

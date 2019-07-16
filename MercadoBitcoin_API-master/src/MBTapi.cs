@@ -72,7 +72,7 @@ namespace Dotend.MBTrade
         /// Essa função retorna tanto as ordens de compra quanto a de venda abertas. 
         /// </summary>
         /// <returns></returns>
-        public DTOMBOrderBook getLastOrders()
+        /*public DTOMBOrderBook getLastOrders()
         {
             DTOMBOrderBook _orderBook = null;
             try
@@ -86,7 +86,7 @@ namespace Dotend.MBTrade
                 this._error = ex.Message;
             }
             return _orderBook;
-        }
+        }*/
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Dotend.MBTrade
         /// Essa função retorna tanto as ordens de compra quanto a de venda abertas. 
         /// </summary>
         /// <returns></returns>
-        public List<MBTrades> getLastBtcTrades()
+        /*public List<MBTrades> getLastBtcTrades()
         {
             List<MBTrades> _trades = null;
             try
@@ -111,9 +111,33 @@ namespace Dotend.MBTrade
                 
             }
             return _trades;
-        }
+        }*/
 
         #endregion
+
+        /// <summary>
+        /// Metodo responsável por informar as ordens de compra e venda da TAPI informada
+        /// via POST
+        /// </summary>
+        /// montado pela função bind</param>
+        /// <returns>Paramtros no formato a serem evniados para a API do MercadoBitcoin</returns>
+        public DTOMBOrder getMy20Orders()
+        {
+            string _return = string.Empty;
+
+            string parameters = "&coin_pair=BRLBTC&order_id=65811715";
+
+            try
+            {
+                _return = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.MyOrders, parameters);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+
+            return new DTOMBOrder(_return);
+        }
 
 
         #region "MB Public function with authentic"

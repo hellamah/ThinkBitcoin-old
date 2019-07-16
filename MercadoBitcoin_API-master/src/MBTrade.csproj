@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DTO\DTOMBMyFunds.cs" />
+    <Compile Include="DTO\DTOMBPublicTrades.cs" />
     <Compile Include="DTO\MBOperation.cs" />
     <Compile Include="DTO\MBTrades.cs" />
     <Compile Include="DTO\DTOMBOperation.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DTO\DTOMBOrderBook.cs" />
     <Compile Include="MBAccess.cs" />
     <Compile Include="MBEnumerables.cs" />
+    <Compile Include="MBPublic.cs" />
     <Compile Include="MBTapi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
