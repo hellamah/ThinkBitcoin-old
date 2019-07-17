@@ -21,7 +21,7 @@ namespace Dotend.MBTrade.DTO
         public DTOMBPublicTrades() : base("") { }
         public DTOMBPublicTrades(string pJsonData) : base(pJsonData)
         {
-            foreach (DTOMBPublicTrades _item in this.convertJsonToObject(pJsonData))
+            foreach (DTOMBPublicTrades _item in this.convertJsonToObjectL(pJsonData))
             {
                 foreach (PropertyInfo _prop in typeof(DTOMBPublicTrades).GetProperties())
                 {
@@ -31,7 +31,7 @@ namespace Dotend.MBTrade.DTO
             }
         }
 
-        public override List<DTOMBPublicTrades> convertJsonToObject(string pJsonData)
+        public List<DTOMBPublicTrades> convertJsonToObjectL(string pJsonData)
         {
             dynamic _data = new JavaScriptSerializer().DeserializeObject(pJsonData);
             DTOMBPublicTrades PT = new DTOMBPublicTrades();
@@ -56,7 +56,7 @@ namespace Dotend.MBTrade.DTO
                     }
                     lPT.Add(PT);
                 }
-                catch { }
+                catch { lPT = null; }
             }
 
             return lPT;

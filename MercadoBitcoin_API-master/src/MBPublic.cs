@@ -49,7 +49,7 @@ namespace Dotend.MBTrade
 
                 DTOMBPublicTrades _orderBase = new DTOMBPublicTrades();
 
-                foreach (DTOMBPublicTrades _order in _orderBase.convertJsonToObject(_json))
+                foreach (DTOMBPublicTrades _order in _orderBase.convertJsonToObjectL(_json))
                 {
                     _listOrders.Add(_order);
                 }
