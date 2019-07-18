@@ -34,7 +34,7 @@ namespace Dotend.MBTrade.DTO
         public List<DTOMBPublicTrades> convertJsonToObjectL(string pJsonData)
         {
             dynamic _data = new JavaScriptSerializer().DeserializeObject(pJsonData);
-            DTOMBPublicTrades PT = new DTOMBPublicTrades();
+            
             List<DTOMBPublicTrades> lPT = new List<DTOMBPublicTrades>();
 
             NumberFormatInfo _provider = new NumberFormatInfo();
@@ -46,8 +46,10 @@ namespace Dotend.MBTrade.DTO
             {
                 try
                 {
+                    DTOMBPublicTrades PT = new DTOMBPublicTrades();
                     if (_data != null)
                     {
+                        var teste = (((Dictionary<string, object>)dado)["type"]).ToString();
                         PT.date = _dataBase.AddSeconds(Convert.ToInt64((((Dictionary<string, object>)dado)["date"])));
                         PT.price = Convert.ToDouble((((Dictionary<string, object>)dado)["price"]), _provider);
                         PT.amount = Convert.ToDouble((((Dictionary<string, object>)dado)["amount"]), _provider);

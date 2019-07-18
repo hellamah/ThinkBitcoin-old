@@ -159,7 +159,7 @@ namespace Dotend.MBTrade
 
             if (validateJsonReturn(_json))
             {
-                _return = new DTOMBMyFunds(_json);                
+                _return = new DTOMBMyFunds(_json);
                 return _return;
             }
             else
@@ -175,13 +175,13 @@ namespace Dotend.MBTrade
         /// <param name="pCoinType"></param>
         /// <param name="pNumberDays"></param>
         /// <returns></returns>
-        public List<DTOMBOrder> getMyOpenOrders(MBEnumerables.CoinType pCoinType,int pNumberDays = 1 )
+        public List<DTOMBOrder> getMyOpenOrders(MBEnumerables.CoinType pCoinType, int pNumberDays = 1)
         {
             string _parameters = string.Empty;
             string _json;
             List<DTOMBOrder> _listOrders = new List<DTOMBOrder>();
 
-            _parameters += "&" ;
+            _parameters += "&";
 
             _parameters += "status_list=[2]&";
 
@@ -199,7 +199,7 @@ namespace Dotend.MBTrade
             string _time;
             _time = Convert.ToString((int)_t.TotalSeconds);
 
-            _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.OrderList,_parameters);
+            _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.OrderList, _parameters);
 
             if (validateJsonReturn(_json))
             {
@@ -218,7 +218,17 @@ namespace Dotend.MBTrade
             return _listOrders;
         }
 
-        public DTOMBOrder  setBitCoinTradeBuy(double pVolume, double pPrice)
+        public DTOMBOrder setBitCoinTradeBuyMarket(double pVolume, double pPrice)
+        {
+            return setTrade(MBEnumerables.CoinType.Bit, MBEnumerables.OperationType.Market_Buy, pVolume, pPrice);
+        }
+
+        public DTOMBOrder setBitCoinTradeSellMarket(double pVolume, double pPrice)
+        {
+            return setTrade(MBEnumerables.CoinType.Bit, MBEnumerables.OperationType.Market_Sell, pVolume, pPrice);
+        }
+
+        public DTOMBOrder setBitCoinTradeBuy(double pVolume, double pPrice)
         {
             return setTrade(MBEnumerables.CoinType.Bit, MBEnumerables.OperationType.Buy, pVolume, pPrice);
         }
@@ -244,7 +254,7 @@ namespace Dotend.MBTrade
             string _json;
             DTOMBOrder _myorders;
 
-            _parameters += "&" ;
+            _parameters += "&";
 
             switch (pCoinType)
             {
@@ -256,16 +266,26 @@ namespace Dotend.MBTrade
                     break;
             }
 
-            _parameters += string.Format("quantity={0}", Convert.ToString(pVolume).Replace(",",".")) + "&";
+            _parameters += string.Format("quantity={0}", Convert.ToString(pVolume).Replace(",", ".")) + "&";
             _parameters += string.Format("limit_price={0}", Convert.ToString(pPrice).Replace(",", "."));
 
             if (pOperationType == MBEnumerables.OperationType.Buy)
             {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Buy, _parameters);
             }
-            else {
+            else if (pOperationType == MBEnumerables.OperationType.Buy)
+            {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Sell, _parameters);
             }
+            else if (pOperationType == MBEnumerables.OperationType.Market_Buy)
+            {
+                _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Market_Buy, _parameters);
+            }
+            else 
+            {
+                _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Market_Sell, _parameters);
+            }
+
 
             if (validateJsonReturn(_json))
             {
@@ -276,7 +296,7 @@ namespace Dotend.MBTrade
             {
                 _myorders = null;
             }
-            
+
             return _myorders;
         }
 
@@ -296,7 +316,7 @@ namespace Dotend.MBTrade
             string _json;
             DTOMBOrder _order = new DTOMBOrder();
 
-            _parameters += "&" ;
+            _parameters += "&";
 
             switch (pTipoMoeda)
             {
@@ -361,7 +381,8 @@ namespace Dotend.MBTrade
                     }
 
                 }
-                else {
+                else
+                {
                     _codeError = 2;
                     _error = "Json em formato incorreto, não possivel converter.";
                 }
@@ -374,8 +395,8 @@ namespace Dotend.MBTrade
             }
 
             return _valid;
-        }        
-       
+        }
+
         #endregion
     }
 

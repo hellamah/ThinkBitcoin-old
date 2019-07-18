@@ -34,6 +34,8 @@ namespace Dotend.MBTrade
             OrderList,
             Buy,
             Sell,
+            Market_Sell,
+            Market_Buy,
             CancelOrder,
             MyOrders
         }
@@ -46,6 +48,8 @@ namespace Dotend.MBTrade
 
         public enum OperationType
         {
+            Market_Buy,
+            Market_Sell,
             Buy,
             Sell
         }

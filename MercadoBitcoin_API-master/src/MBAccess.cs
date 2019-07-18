@@ -127,6 +127,12 @@ namespace Dotend.MBTrade
                     case MBEnumerables.MethodAPI.Sell:
                         _method = "place_sell_order";
                         break;
+                    case MBEnumerables.MethodAPI.Market_Buy:
+                        _method = "place_market_buy_order";
+                        break;
+                    case MBEnumerables.MethodAPI.Market_Sell:
+                        _method = "place_market_sell_order";
+                        break;
                     case MBEnumerables.MethodAPI.CancelOrder:
                         _method = "cancel_order";
                         break;

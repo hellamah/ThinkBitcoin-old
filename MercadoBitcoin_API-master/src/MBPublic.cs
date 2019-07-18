@@ -27,7 +27,7 @@ namespace Dotend.MBTrade
         /// <returns></returns>
         public List<DTOMBPublicTrades> getPublicTrades30s(MBEnumerables.CoinType pCoinType, decimal pDe, decimal pPara)
         {
-            List<DTOMBPublicTrades> _listOrders = new List<DTOMBPublicTrades>();
+            //List<DTOMBPublicTrades> _listOrders = new List<DTOMBPublicTrades>();
             string _json;
             string pParameters = string.Empty;
 
@@ -49,17 +49,12 @@ namespace Dotend.MBTrade
 
                 DTOMBPublicTrades _orderBase = new DTOMBPublicTrades();
 
-                foreach (DTOMBPublicTrades _order in _orderBase.convertJsonToObjectL(_json))
-                {
-                    _listOrders.Add(_order);
-                }
+                return _orderBase.convertJsonToObjectL(_json);
             }
             else
             {
-                _listOrders = null;
+                return null;
             }
-
-            return _listOrders;
         }
 
 

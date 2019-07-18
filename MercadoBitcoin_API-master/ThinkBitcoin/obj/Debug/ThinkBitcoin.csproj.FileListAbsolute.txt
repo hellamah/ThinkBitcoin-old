@@ -37,3 +37,16 @@ C:\Users\helam\OneDrive\Documentos\thinkbitcoin\trunk\MercadoBitcoin_API-master\
 C:\Users\helam\OneDrive\Documentos\thinkbitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\MBTrade.pdb
 C:\Users\helam\OneDrive\Documentos\thinkbitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\MBTrade.dll.config
 C:\Users\helam\OneDrive\Documentos\thinkbitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csproj.CopyComplete
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\ThinkBitcoin.exe.config
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\ThinkBitcoin.exe
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\ThinkBitcoin.pdb
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\MBTrade.dll
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\MBTrade.pdb
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\MBTrade.dll.config
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csprojAssemblyReference.cache
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.Form1.resources
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csproj.GenerateResource.cache
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csproj.CoreCompileInputs.cache
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csproj.CopyComplete
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.exe
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.pdb
