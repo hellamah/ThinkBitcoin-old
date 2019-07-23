@@ -74,30 +74,37 @@ namespace ThinkBitcoin
                     if (venda >= 3 && compra == 0) break;
                 }
 
-                if (compra >= 3 && venda == 0)
+                if (compra >= 3 && venda == 0 && porcent > 0.001)
                 {
                     decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
                     decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
                     Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS);
                     bCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Count();
                     sCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Count();
+                    var mediaOps = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(5).Sum(x=>x.price) /5;
 
                     if (bCount < sCount)
-                    { }
+                    {
+                        DTOMBOrder testeCompra = mbTapi.setBitCoinTradeSellMarket(porcent, mediaOps);
+                    }
                     //TODO: VENDE!
                 }
 
-                if (compra >= 3 && venda == 0)
+                if (venda >= 3 && compra == 0 && myFounds.balanceBRLAvaliable > 60)
                 {
                     decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
                     decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
                     Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS);
                     bCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Count();
                     sCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Count();
+                    var mediaOps = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(5).Sum(x => x.price) / 5;
 
-                    if (sCount < bCount)
-                    { }
-                    //TODO: COMPRA!
+                    if (sCount/2 < bCount)
+                    {
+                        DTOMBOrder testeCompra = mbTapi.setBitCoinTradeBuyMarket(myFounds.balanceBRLAvaliable, mediaOps);
+
+                    }
+                    //
                 }
             }
 
