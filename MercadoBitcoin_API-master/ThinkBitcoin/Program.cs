@@ -19,6 +19,8 @@ namespace ThinkBitcoin
 
         static void Main(string[] args)
         {
+            bool buy = false;
+            bool sell = false;
             while (true)
             {
                 double porcent;
@@ -40,14 +42,14 @@ namespace ThinkBitcoin
 
                 porcent = myFounds.balanceBTCAvaliable * 0.05;
 
-
+                List<DTOMBOrder> myOrders = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit);
 
 
 
 
                 List<DTOMBPublicTrades> Pubtrades = null;
 
-                for (int count = 0; count < 6; count++)
+                for (int count = 0; count < 50; count++)
                 {
                     Pubtrades = new List<DTOMBPublicTrades>();
 
@@ -69,28 +71,51 @@ namespace ThinkBitcoin
                     else venda++;
 
 
-                    //O IF que quebrar o FOR precisa estar fora do FOR pra receber a decisão
-                    if (compra >= 3 && venda == 0) break;
-                    if (venda >= 3 && compra == 0) break;
+                    //O IF que quebrar o FOR precisa estar fora do for pra receber a decisão
+                    if (compra >= 6 && venda <= compra / 6)
+                    { buy = true; sell = false; } //mercado subindo, quase na hora de vender
+                    if (venda >= 6 && compra <= venda / 6)
+                    { sell = true; buy = false; } //mercado descendo, quanse na hora de comprar
+
+                    if (compra >= 6 && sCount >= bCount - 2 && buy)
+                    {
+                        count = 0;
+                        compra = 0;
+                        venda = 0;
+                        break;
+                    }
+                    if (venda >= 6 && bCount >= sCount - 2 && sell)
+                    {
+                        count = 0;
+                        compra = 0;
+                        venda = 0;
+                        break;
+                    }
+
+                    System.Threading.Thread.Sleep(6000);
                 }
 
-                if (compra >= 3 && venda == 0 && porcent > 0.001)
+                if (buy)
                 {
                     decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
-                    decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
-                    Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS);
-                    bCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Count();
-                    sCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Count();
-                    var mediaOps = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(5).Sum(x=>x.price) /5;
+                    decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-300), TimeSpan.Zero).ToUnixTimeSeconds();
+                    Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS).ToList();
 
-                    if (bCount < sCount)
-                    {
-                        DTOMBOrder testeCompra = mbTapi.setBitCoinTradeSellMarket(porcent, mediaOps);
-                    }
-                    //TODO: VENDE!
+                    var primeiros = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(Convert.ToInt32(Math.Round((Pubtrades.Count() / 10f)))).ToList();
+                    var ultimosValores = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).ToList();
+                    var listaBuy = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).ToList().Except(primeiros).ToList();//.RemoveAll(l => l == primeiros.Select(f=>f.tid));
+
+                    //sCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Count();
+                    //var mediaOps = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(5).Sum(x => x.price) / 5;
+
+                    //if (bCount / 2 < sCount)
+                    //{//TODO: VENDE!
+                    //DTOMBOrder testeCompra = mbTapi.setBitCoinTradeSellMarket(porcent, mediaOps);
+                    //}
+
                 }
 
-                if (venda >= 3 && compra == 0 && myFounds.balanceBRLAvaliable > 60)
+                if (sell)
                 {
                     decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
                     decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
@@ -99,11 +124,12 @@ namespace ThinkBitcoin
                     sCount = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Count();
                     var mediaOps = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(5).Sum(x => x.price) / 5;
 
-                    if (sCount/2 < bCount)
-                    {
+                    //if (sCount / 2 < bCount)
+                    //{
+                    if (myFounds.balanceBRLAvaliable > 50) {
                         DTOMBOrder testeCompra = mbTapi.setBitCoinTradeBuyMarket(myFounds.balanceBRLAvaliable, mediaOps);
-
-                    }
+                        }
+                    //}
                     //
                 }
             }
