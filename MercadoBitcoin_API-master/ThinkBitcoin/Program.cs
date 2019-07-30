@@ -91,6 +91,7 @@ namespace ThinkBitcoin
                     System.Threading.Thread.Sleep(6000);
                 }
 
+                if(myFounds == null) myFounds = mbAccess.getMyInfoAccount();
                 List<DTOMBOrder> myOrders = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit);
 
                 if (buy && myFounds.balanceBRLAvaliable >= 70)
