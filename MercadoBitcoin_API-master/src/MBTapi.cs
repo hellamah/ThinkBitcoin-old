@@ -175,7 +175,7 @@ namespace Dotend.MBTrade
         /// <param name="pCoinType"></param>
         /// <param name="pNumberDays"></param>
         /// <returns></returns>
-        public List<DTOMBOrder> getMyOpenOrders(MBEnumerables.CoinType pCoinType, int pNumberDays = 1)
+        public List<DTOMBOrder> getMyOrders(MBEnumerables.CoinType pCoinType, int pNumberDays = 1)
         {
             string _parameters = string.Empty;
             string _json;
@@ -183,15 +183,15 @@ namespace Dotend.MBTrade
 
             _parameters += "&";
 
-            _parameters += "status_list=[2]&";
+            //_parameters += "status_list=[2]&";
 
             switch (pCoinType)
             {
                 case MBEnumerables.CoinType.Bit:
-                    _parameters += "coin_pair=BRLBTC&";
+                    _parameters += "coin_pair=BRLBTC";
                     break;
                 case MBEnumerables.CoinType.Lit:
-                    _parameters += "coin_pair=BRLLTC&";
+                    _parameters += "coin_pair=BRLLTC";
                     break;
             }
 

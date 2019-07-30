@@ -49,7 +49,7 @@ namespace Dotend.MBTrade
 
                 DTOMBPublicTrades _orderBase = new DTOMBPublicTrades();
 
-                return _orderBase.convertJsonToObjectL(_json);
+                return _orderBase.convertJsonToObjectL(_json).OrderByDescending(d=>d.date).ToList();
             }
             else
             {
