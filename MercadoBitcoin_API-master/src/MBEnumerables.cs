@@ -48,10 +48,10 @@ namespace Dotend.MBTrade
 
         public enum OperationType
         {
+            Buy = 1,
+            Sell = 2,
             Market_Buy,
             Market_Sell,
-            Buy,
-            Sell
         }
 
         public enum StatusOrder

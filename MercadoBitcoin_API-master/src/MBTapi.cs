@@ -202,7 +202,7 @@ namespace Dotend.MBTrade
             _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.OrderList, _parameters);
 
             if (validateJsonReturn(_json))
-            {
+           {
                 DTOMBOrder _orderBase = new DTOMBOrder();
 
                 foreach (DTOMBOrder _order in _orderBase.convertJsonToObject(_json))
@@ -273,7 +273,7 @@ namespace Dotend.MBTrade
             {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Buy, _parameters);
             }
-            else if (pOperationType == MBEnumerables.OperationType.Buy)
+            else if (pOperationType == MBEnumerables.OperationType.Sell)
             {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Sell, _parameters);
             }
@@ -281,11 +281,12 @@ namespace Dotend.MBTrade
             {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Market_Buy, _parameters);
             }
-            else 
+            else if (pOperationType == MBEnumerables.OperationType.Market_Sell)
             {
                 _json = _mbAcess.getRequestPrivate(MBEnumerables.MethodAPI.Market_Sell, _parameters);
             }
-
+            else
+                _json = string.Empty;
 
             if (validateJsonReturn(_json))
             {

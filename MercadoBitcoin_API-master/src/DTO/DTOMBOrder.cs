@@ -51,7 +51,7 @@ namespace Dotend.MBTrade.DTO
             {
                 _order.id = Convert.ToInt64(pDicOrder["order_id"]);
                 _order.coinPair = Convert.ToString(pDicOrder["coin_pair"]);
-                _order.type = Convert.ToInt32(pDicOrder["order_type"]) == 2 ? MBEnumerables.OperationType.Buy : MBEnumerables.OperationType.Sell;
+                _order.type = Convert.ToInt32(pDicOrder["order_type"]) == 2 ? MBEnumerables.OperationType.Sell : MBEnumerables.OperationType.Buy;
                 _order.status = Convert.ToInt32(pDicOrder["status"]);
                 _order.hasFills = Convert.ToBoolean(pDicOrder["has_fills"]);
                 _order.quantity = Convert.ToDouble(pDicOrder["quantity"], _provider);

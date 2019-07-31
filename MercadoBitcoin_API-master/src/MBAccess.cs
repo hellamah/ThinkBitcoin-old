@@ -19,7 +19,7 @@ namespace Dotend.MBTrade
 
         private string _privateKey = "aad7a2985cab0ae996cf53e27121b447b8abc2788285ef1ef8dca1983d015d69"; 
         private string _publicKey = "b074bdc61a15f3f4fdf8f5d9cbfd1768";
-        private string _pin = "8238";
+        private string _pin = "1854";
         private string _error;
 
         internal string Error
