@@ -50,3 +50,7 @@ C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-maste
 C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.csproj.CopyComplete
 C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.exe
 C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.pdb
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\ThinkBitcoin.exe.manifest
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\bin\Debug\ThinkBitcoin.application
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.exe.manifest
+C:\Users\helama.borges.CPASS\Desktop\ThinkBitcoin\trunk\MercadoBitcoin_API-master\ThinkBitcoin\obj\Debug\ThinkBitcoin.application

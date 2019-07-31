@@ -45,7 +45,7 @@ namespace ThinkBitcoin
 
                 List<DTOMBPublicTrades> Pubtrades = null;
 
-                for (int count = 0; count < 50; count++)
+                for (int count = 0; count < 15; count++)
                 {
                     Pubtrades = new List<DTOMBPublicTrades>();
 
@@ -106,16 +106,12 @@ namespace ThinkBitcoin
 
                     var menorValor = (primeiros.Sum(c => c.price) / primeiros.Count()) <= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count());
 
-                    var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell).First().price;
+                    var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().price;
 
-                    if ((menorValor <= (preco + (preco * 0.002)))) //É necessário usar o valor da ultima venda para realizar COMPRA
+                    if (preco > 0 && (menorValor <= (preco + (preco * 0.002)))) //É necessário usar o valor da ultima venda para realizar COMPRA
                     {
-                        DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuyMarket(myFounds.balanceBRLAvaliable, menorValor); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
+                        DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().quantity, menorValor); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
                     }
-
-                    //{//TODO: VENDE!
-                    //DTOMBOrder testeCompra = mbTapi.setBitCoinTradeSellMarket(porcent, mediaOps);
-                    //}
 
                 }
 
@@ -135,13 +131,12 @@ namespace ThinkBitcoin
 
                     var menorValor = (primeiros.Sum(c => c.price) / primeiros.Count()) >= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count());
 
-                    var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Buy).First().price;
+                    var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Buy && p.status == 4).First().price;
 
-                    if (menorValor >= (preco + (preco * 0.002))) //É necessário usar o valor da ultima compra para realizar venda
+                    if (preco > 0 && menorValor >= (preco + (preco * 0.002))) //É necessário usar o valor da ultima compra para realizar venda
                     {
-                        DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSellMarket(myFounds.balanceBTCAvaliable, menorValor);
+                        DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, menorValor);
                     }
-                    //TODO: COMPRA!
                 }
             }
 
