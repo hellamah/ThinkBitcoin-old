@@ -108,7 +108,7 @@ namespace ThinkBitcoin
 
                     var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().price;
 
-                    if (preco > 0 && (menorValor <= (preco + (preco * 0.002)))) //É necessário usar o valor da ultima venda para realizar COMPRA
+                    if (preco > 0 && (menorValor <= (preco + (preco * 0.008)))) //É necessário usar o valor da ultima venda para realizar COMPRA
                     {
                         DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().quantity, menorValor); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
                     }
@@ -133,7 +133,7 @@ namespace ThinkBitcoin
 
                     var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Buy && p.status == 4).First().price;
 
-                    if (preco > 0 && menorValor >= (preco + (preco * 0.002))) //É necessário usar o valor da ultima compra para realizar venda
+                    if (preco > 0 && menorValor >= (preco + (preco * 0.008))) //É necessário usar o valor da ultima compra para realizar venda
                     {
                         DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, menorValor);
                     }
