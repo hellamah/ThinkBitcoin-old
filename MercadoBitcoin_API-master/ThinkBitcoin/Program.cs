@@ -19,6 +19,37 @@ namespace ThinkBitcoin
 
         static void Main(string[] args)
         {
+            //theFirst();
+            while (true)
+            {
+                List<DTOMBPublicTrades> Pubtrades = null;
+                MBPublic mbPublic = new MBPublic();
+                Pubtrades = new List<DTOMBPublicTrades>();
+
+                decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
+                decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
+
+                Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS);
+
+                var myLastOrder = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit).Where(p => p.status == 4).First();
+
+                if (myLastOrder.type == MBEnumerables.OperationType.Buy)
+                {//TODO:VENDER!
+                    if (Pubtrades.Take(4).Where(x=>x.type == MBEnumerables.OperationType.Sell).Count() >= 3)
+                    {//.Sum() / 4 > (myLastOrder.price + (myLastOrder.price * 0.006))) {
+                        var valVenda = (Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Select(p=> p.price).Sum() / Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count());
+                    }
+                }
+                else
+                {//TODO:COMPRAR!(preco + (preco * 0.006))
+                    if (Pubtrades.Take(4).Select(c =>c.price).Sum() / 4 > (myLastOrder.price + (myLastOrder.price * 0.006))) { }
+
+                }
+            }
+        }
+
+        public async Task theFirst()
+        {
             bool buy = false;
             bool sell = false;
             while (true)
@@ -88,10 +119,10 @@ namespace ThinkBitcoin
                         break;
                     }
 
-                    System.Threading.Thread.Sleep(6000);
+                    System.Threading.Thread.Sleep(600);
                 }
 
-                if(myFounds == null) myFounds = mbAccess.getMyInfoAccount();
+                if (myFounds == null) myFounds = mbAccess.getMyInfoAccount();
                 List<DTOMBOrder> myOrders = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit);
 
                 if (buy && myFounds.balanceBRLAvaliable >= 70)
@@ -104,11 +135,11 @@ namespace ThinkBitcoin
                     var primeiros = listaSell.Take(Convert.ToInt32(Math.Round((Pubtrades.Count() / 10f)))).ToList();
                     var ultimosValores = listaSell.Except(primeiros).ToList();
 
-                    var menorValor = (primeiros.Sum(c => c.price) / primeiros.Count()) <= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count());
+                    var menorValor = Math.Round(((primeiros.Sum(c => c.price) / primeiros.Count()) <= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count())), 2);
 
                     var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().price;
 
-                    if (preco > 0 && (menorValor <= (preco + (preco * 0.008)))) //É necessário usar o valor da ultima venda para realizar COMPRA
+                    if (preco > 0 && (menorValor <= (preco + (preco * 0.006)))) //É necessário usar o valor da ultima venda para realizar COMPRA
                     {
                         DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myOrders.Where(p => p.type == MBEnumerables.OperationType.Sell && p.status == 4).First().quantity, menorValor); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
                     }
@@ -129,76 +160,16 @@ namespace ThinkBitcoin
                     var primeiros = listaBuy.Take(Convert.ToInt32(Math.Round((Pubtrades.Count() / 10f)))).ToList();
                     var ultimosValores = listaBuy.Except(primeiros).ToList();
 
-                    var menorValor = (primeiros.Sum(c => c.price) / primeiros.Count()) >= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count());
+                    var menorValor = Math.Round(((primeiros.Sum(c => c.price) / primeiros.Count()) >= (ultimosValores.Sum(c => c.price) / ultimosValores.Count()) ? (primeiros.Sum(c => c.price) / primeiros.Count()) : (ultimosValores.Sum(c => c.price) / ultimosValores.Count())), 2);
 
                     var preco = myOrders.Where(p => p.type == MBEnumerables.OperationType.Buy && p.status == 4).First().price;
 
-                    if (preco > 0 && menorValor >= (preco + (preco * 0.008))) //É necessário usar o valor da ultima compra para realizar venda
+                    if (preco > 0 && menorValor >= (preco + (preco * 0.006))) //É necessário usar o valor da ultima compra para realizar venda
                     {
                         DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, menorValor);
                     }
                 }
             }
-
-
-
-            //List<DTOMBOrder> teste = mbTapi.getMyOpenOrders(MBEnumerables.CoinType.Bit);
-
-            DTOMBOrder dddd = mbTapi.getMy20Orders();
-
-
-            //DateTime dt = DateTime.Now;
-
-            //Lista das ultimas 20 ordens de execução
-
-            //double bTotal = tr
-
-
-
-
-
-
-
-
-
-
-
-            //    ades.Where(x => x._type == MBEnumerables.OperationType.Buy).Sum(x => x.amount);
-
-
-
-
-            /*foreach (var trade in trades)
-            {
-                if (trade._type == MBEnumerables.OperationType.Buy)
-                    bCount++;
-                else 
-                    sCount++;*/
-
-            /*if ((bCount > 5 && sCount < 2) || (bCount > 7 && sCount)// TODAS AS REGRAS DE COMPRA
-                {
-                mbOp.Type = MBEnumerables.OperationType.Buy;
-                break;
-            }
-            else if ((sCount > 5 && bCount < 2))// TODAS AS REGRAS DE VENDA
-            {
-                mbOp.Type = MBEnumerables.OperationType.Buy;
-                break;
-            }*/
-
-            //Saldo R$, BTC e LTC
-
-            /*     if (myFounds.balanceBTCAvaliable > 0.001)
-                 {
-                     //mbOp.Price = 1;//TODO: parte da estatistica vem aqui!
-                 }*
-             }*/
-
-
-
-
-
-
         }
     }
 }

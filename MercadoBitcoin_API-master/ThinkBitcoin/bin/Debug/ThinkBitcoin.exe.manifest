@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="ThinkBitcoin.exe" version="1.0.0.1" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="ThinkBitcoin.exe" version="1.0.0.2" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="ThinkBitcoin" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
@@ -49,19 +49,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>q6Kx9NUYy9drsRfhZxyM0CdGiNjNVt032FyDd+20d5o=</dsig:DigestValue>
+        <dsig:DigestValue>3MUfYpEZ6AhHA+2ZUpWVPe7QzB067eiYGLtfYToPYa4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="10712">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="13272">
       <assemblyIdentity name="ThinkBitcoin" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>2H9sRb7h0Y8JN7+lFu9nIZAERz55jxrIRmETeCFErPM=</dsig:DigestValue>
+        <dsig:DigestValue>ghLRI/qZzRz87mCdbrAZO1c5oXDOaT7RbXaSZX5VwrM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
