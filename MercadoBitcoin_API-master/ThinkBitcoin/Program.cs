@@ -22,29 +22,63 @@ namespace ThinkBitcoin
             //theFirst();
             while (true)
             {
-                List<DTOMBPublicTrades> Pubtrades = null;
-                MBPublic mbPublic = new MBPublic();
-                Pubtrades = new List<DTOMBPublicTrades>();
+                try
+                {
+                    MBAccess mbAccess = new MBAccess();
+                    MBPublic mbPublic = new MBPublic();
 
-                decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
-                decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
+                    DTOMBMyFunds myFounds = mbAccess.getMyInfoAccount();
 
-                Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS);
+                    List<DTOMBPublicTrades> Pubtrades = new List<DTOMBPublicTrades>();
 
-                var myLastOrder = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit).Where(p => p.status == 4).First();
+                    decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
+                    decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
+                    Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS); //Ultimas transações realizadas no mercado bitcoin
 
-                if (myLastOrder.type == MBEnumerables.OperationType.Buy)
-                {//TODO:VENDER!
-                    if (Pubtrades.Take(4).Where(x=>x.type == MBEnumerables.OperationType.Sell).Count() >= 3)
-                    {//.Sum() / 4 > (myLastOrder.price + (myLastOrder.price * 0.006))) {
-                        var valVenda = (Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Select(p=> p.price).Sum() / Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count());
+                    var ultValores = Pubtrades.Except(Pubtrades.Take(4)).ToList();
+
+                    var myLastOrder = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit).Where(p => p.status == 4).First(); //Ultima transação realizada na minha conta
+                    double valorOp = 0;
+
+                    if (myLastOrder.type == MBEnumerables.OperationType.Buy)
+                    {//TODO:VENDER!
+                        var valVenda = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Count()), 2);
+
+                        if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= 2))
+                            if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.005)))
+                                if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
+                                    if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
+                                    {
+                                        valorOp = valVenda;
+                                    }
+                    }
+                    else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
+                    {//TODO:COMPRAR!(preco + (preco * 0.006))
+                        var valCompra = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Count()), 2);
+
+                        if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= 2))
+                            if (myLastOrder.price > 0 && valCompra >= (myLastOrder.price + (myLastOrder.price * 0.005)))
+                                if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
+                                    if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
+                                    {
+                                        valorOp = valCompra;
+                                    }
+                    }
+                    if (valorOp != 0)
+                    {
+                        if (myLastOrder.type == MBEnumerables.OperationType.Buy)
+                        {//TODO:VENDER!
+                            DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, valorOp);
+                        }
+                        else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
+                        {//TODO:COMPRAR!
+                            var qtdeBTC = (myFounds.balanceBRLAvaliable * myLastOrder.quantity) / myLastOrder.price;
+                            DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(qtdeBTC, valorOp); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
+
+                        }
                     }
                 }
-                else
-                {//TODO:COMPRAR!(preco + (preco * 0.006))
-                    if (Pubtrades.Take(4).Select(c =>c.price).Sum() / 4 > (myLastOrder.price + (myLastOrder.price * 0.006))) { }
-
-                }
+                catch { }
             }
         }
 
@@ -55,9 +89,6 @@ namespace ThinkBitcoin
             while (true)
             {
                 double porcent;
-                double bTotal;
-                double sTotal;
-                double total;
                 /*int bCount1;
                 int sCount1;*/
 
