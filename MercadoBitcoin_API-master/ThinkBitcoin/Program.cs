@@ -45,7 +45,7 @@ namespace ThinkBitcoin
                         var valVenda = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Count()), 2);
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= 2))
-                            if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.005)))
+                            if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.006)))
                                 if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
                                     if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
                                     {
@@ -57,7 +57,7 @@ namespace ThinkBitcoin
                         var valCompra = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Count()), 2);
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= 2))
-                            if (myLastOrder.price > 0 && valCompra >= (myLastOrder.price + (myLastOrder.price * 0.005)))
+                            if (myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.004)))
                                 if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
                                     if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
                                     {

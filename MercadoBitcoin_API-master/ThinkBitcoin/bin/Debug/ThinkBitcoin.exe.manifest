@@ -49,19 +49,19 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>3MUfYpEZ6AhHA+2ZUpWVPe7QzB067eiYGLtfYToPYa4=</dsig:DigestValue>
+        <dsig:DigestValue>6k9xMqfl5mRf2Hv9dMqM8Dd30BHjHFFSNBEodsoCROY=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="13272">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="15320">
       <assemblyIdentity name="ThinkBitcoin" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ghLRI/qZzRz87mCdbrAZO1c5oXDOaT7RbXaSZX5VwrM=</dsig:DigestValue>
+        <dsig:DigestValue>ECJBd4KYwhnG+1PGVNvzOroivZwO5q0lLlcFOME1Kw8=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
