@@ -42,7 +42,7 @@ namespace ThinkBitcoin
 
                     if (myLastOrder.type == MBEnumerables.OperationType.Buy)
                     {//TODO:VENDER!
-                        var valVenda = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Sell).Count()), 2);
+                        var valVenda = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(2).Average(p => p.price), 2);
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= 2))
                             if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.006)))
@@ -54,7 +54,7 @@ namespace ThinkBitcoin
                     }
                     else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
                     {//TODO:COMPRAR!(preco + (preco * 0.006))
-                        var valCompra = Math.Round((Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Sum(p => p.price) / Pubtrades.Take(2).Where(x => x.type == MBEnumerables.OperationType.Buy).Count()), 2);
+                        var valCompra = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Average(p => p.price),2);
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= 2))
                             if (myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.004)))
