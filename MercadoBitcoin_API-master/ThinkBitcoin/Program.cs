@@ -9,6 +9,7 @@ using Dotend.MBTrade;
 using MBTrade.DTO.MBOperation;
 using Dotend.MBTrade.DTO.MBTrades;
 using Dotend.MBTrade.DTO;
+using MBTrade.Tools;
 
 namespace ThinkBitcoin
 {
@@ -22,6 +23,7 @@ namespace ThinkBitcoin
             //theFirst();
             while (true)
             {
+                LogisticRegression.teste();
                 try
                 {
                     MBAccess mbAccess = new MBAccess();
@@ -54,10 +56,10 @@ namespace ThinkBitcoin
                     }
                     else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
                     {//TODO:COMPRAR!(preco + (preco * 0.006))
-                        var valCompra = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Average(p => p.price),2);
+                        var valCompra = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Average(p => p.price), 2);
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= 2))
-                            if (myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.004)))
+                            if (ultValores.Take(ultValores.Count() / 2).Average(h => h.price) > myLastOrder.price + 200 || myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.003)))
                                 if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
                                     if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
                                     {
@@ -72,9 +74,8 @@ namespace ThinkBitcoin
                         }
                         else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
                         {//TODO:COMPRAR!
-                            var qtdeBTC = (myFounds.balanceBRLAvaliable * myLastOrder.quantity) / myLastOrder.price;
-                            DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(qtdeBTC, valorOp); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
-
+                            var qtdeBTC = (myFounds.balanceBRLAvaliable * Pubtrades.First().amount) / Pubtrades.First().price;
+                            DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myLastOrder.quantity-0.002, valorOp); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
                         }
                     }
                 }
