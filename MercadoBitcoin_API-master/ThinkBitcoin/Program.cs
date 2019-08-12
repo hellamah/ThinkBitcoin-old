@@ -9,78 +9,136 @@ using Dotend.MBTrade;
 using MBTrade.DTO.MBOperation;
 using Dotend.MBTrade.DTO.MBTrades;
 using Dotend.MBTrade.DTO;
-using MBTrade.Tools;
+//using MBTrade.Tools;
 
 namespace ThinkBitcoin
 {
     class Program
     {
         public static MBTAPI mbTapi = new MBTAPI("aad7a2985cab0ae996cf53e27121b447b8abc2788285ef1ef8dca1983d015d69", "b074bdc61a15f3f4fdf8f5d9cbfd1768", "8238");
-
+        private static List<DTOMBPublicTrades> Pubtrades;
+        private static DTOMBMyFunds myFounds;
 
         static void Main(string[] args)
         {
             //theFirst();
             while (true)
             {
-                LogisticRegression.teste();
+                //teste();
+
+                //LogisticRegression.teste();
                 try
                 {
                     MBAccess mbAccess = new MBAccess();
                     MBPublic mbPublic = new MBPublic();
 
-                    DTOMBMyFunds myFounds = mbAccess.getMyInfoAccount();
 
-                    List<DTOMBPublicTrades> Pubtrades = new List<DTOMBPublicTrades>();
+
+                    Pubtrades = new List<DTOMBPublicTrades>();
 
                     decimal unixS = new DateTimeOffset(DateTime.UtcNow, TimeSpan.Zero).ToUnixTimeSeconds();
-                    decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-200), TimeSpan.Zero).ToUnixTimeSeconds();
+                    decimal unixSMenor = new DateTimeOffset(DateTime.UtcNow.AddSeconds(-400), TimeSpan.Zero).ToUnixTimeSeconds();
+
                     Pubtrades = mbPublic.getPublicTrades30s(MBEnumerables.CoinType.Bit, unixSMenor, unixS); //Ultimas transações realizadas no mercado bitcoin
 
                     var ultValores = Pubtrades.Except(Pubtrades.Take(4)).ToList();
 
-                    var myLastOrder = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit).Where(p => p.status == 4).First(); //Ultima transação realizada na minha conta
+                    var myOrders = mbTapi.getMyOrders(MBEnumerables.CoinType.Bit);
+                    var myLastOrder = myOrders.Where(p => p.status == 4).First(); //Ultima transação realizada na minha conta
                     double valorOp = 0;
 
                     if (myLastOrder.type == MBEnumerables.OperationType.Buy)
                     {//TODO:VENDER!
-                        var valVenda = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Sell).Take(2).Average(p => p.price), 2);
+                        var valMed2L = (Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Sum(x => x.price) - Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).First().price) / 2;//media do secundo e terceiro 
+                        var valMed = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Average(x => x.price);
+                        var valMed4 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(4).Average(x => x.price);
 
-                        if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= 2))
-                            if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.006)))
-                                if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
-                                    if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
-                                    {
-                                        valorOp = valVenda;
-                                    }
+                        //var val1 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).First().price;
+                        //var val2 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Last().price;
+                        //var val3 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Last().price;
+                        var maiorVal = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Select(x => x.price).Max();
+
+                        //if ((maiorVal > valMed2L || maiorVal > valMed) || valMed4 > valMed) continue;
+
+                        //else
+                        //{
+                        var valVenda = Math.Round((maiorVal > valMed2L ? maiorVal : 0), 2);
+
+                        try
+                        {
+                            if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= 2))
+                                if (myLastOrder.price > 0 && valVenda >= (myLastOrder.price + (myLastOrder.price * 0.006)))
+                                {
+                                    if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
+                                        if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() * 0.8))
+                                            valorOp = valVenda;
+                                }
+                                else if (valVenda < myLastOrder.price - 600)
+                                    valorOp = valVenda;
+                            //}
+                        }
+                        catch { Console.WriteLine("deu erro1"); }
                     }
                     else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
                     {//TODO:COMPRAR!(preco + (preco * 0.006))
-                        var valCompra = Math.Round(Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Average(p => p.price), 2);
+
+                        var valMed2L = (Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Sum(x => x.price) - Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).First().price) / 2;//media do secundo e terceiro 
+                        var valMed = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Average(x => x.price);
+                        var valMed4 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(4).Average(x => x.price);
+
+                        //var val1 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).First().price;
+                        //var val2 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(2).Last().price;
+                        //var val3 = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Last().price;
+                        var menorVal = Pubtrades.Where(x => x.type == MBEnumerables.OperationType.Buy).Take(3).Select(x => x.price).Min();
+
+                        //if ((menorVal < valMed2L && menorVal < valMed) || valMed4 < valMed) continue;
+
+                        //else
+                        //{
+
+                        var valCompra = Math.Round((menorVal < valMed2L ? menorVal : 0), 2);
+
 
                         if ((Pubtrades.Take(4).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() >= 2))
-                            if (ultValores.Take(ultValores.Count() / 2).Average(h => h.price) > myLastOrder.price + 200 || myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.003)))
+                            if (valCompra <= (myLastOrder.price - (myLastOrder.price * 0.003)))//ultValores.Take(ultValores.Count() / 2).Average(h => h.price) > myLastOrder.price + 200 || myLastOrder.price > 0 && valCompra <= (myLastOrder.price - (myLastOrder.price * 0.003)))
+                            {
                                 if (ultValores.Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
                                     if (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Sell).Count() >= (ultValores.Take((int)Math.Round(ultValores.Count() * 0.3)).Where(x => x.type == MBEnumerables.OperationType.Buy).Count() * 0.8))
-                                    {
                                         valorOp = valCompra;
-                                    }
+                            }
+                            else if (valCompra > myLastOrder.price - 600)
+                                valorOp = valCompra;
+                        //}
                     }
+
+
                     if (valorOp != 0)
                     {
-                        if (myLastOrder.type == MBEnumerables.OperationType.Buy)
-                        {//TODO:VENDER!
-                            DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, valorOp);
+                        try
+                        {
+                            myFounds = mbAccess.getMyInfoAccount();
+
+                            if (myLastOrder.type == MBEnumerables.OperationType.Buy)
+                            {//TODO:VENDER!
+                                DTOMBOrder ordemVenda = mbTapi.setBitCoinTradeSell(myFounds.balanceBTCAvaliable, valorOp);
+                            }
+                            else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
+                            {//TODO:COMPRAR!
+                                var qtdeBTC = (myFounds.balanceBRLAvaliable * Pubtrades.First().amount) / Pubtrades.First().price;
+                                DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myLastOrder.quantity - 0.002, valorOp); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
+                            }
                         }
-                        else if (myLastOrder.type == MBEnumerables.OperationType.Sell)
-                        {//TODO:COMPRAR!
-                            var qtdeBTC = (myFounds.balanceBRLAvaliable * Pubtrades.First().amount) / Pubtrades.First().price;
-                            DTOMBOrder ordemCompra = mbTapi.setBitCoinTradeBuy(myLastOrder.quantity-0.002, valorOp); //TODO: o valor da quantidade de btc que será comprado deve avaliar a diferença entre valores de antigas compras realizadas com as atuais 
-                        }
+                        catch { Console.WriteLine("deu erro2"); }
                     }
+
                 }
                 catch { }
             }
+        }
+
+        public void teste()
+        {
+
         }
 
         public async Task theFirst()

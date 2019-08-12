@@ -42,38 +42,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MBTrade.dll" size="30208">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="MBTrade.dll" size="29696">
       <assemblyIdentity name="MBTrade" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0qB99ds1sZjkC9trB5nbWimXWeZD4/mS/SuIrxIYEJI=</dsig:DigestValue>
+        <dsig:DigestValue>U03NVZHrjaPVH2y2BBbG+CFYxic5Rb660pg5Iz8t3DE=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="OpenCvSharp.dll" size="839168">
-      <assemblyIdentity name="OpenCvSharp" version="1.0.0.0" publicKeyToken="6ADAD1E807FEA099" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>fYN+WjK5K+3KPD1mFNGPHcImprF1LaV0F65Llui6ksA=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="15320">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ThinkBitcoin.exe" size="17368">
       <assemblyIdentity name="ThinkBitcoin" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>/5s1d6lzh/6VxqFfkEa/KdVV+VMet5kzUQgnjFwimi0=</dsig:DigestValue>
+        <dsig:DigestValue>7cd73lK2kV/l52cmTSgh/+RyqzgV6+BdTifjQ4C342I=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
