@@ -1,5 +1,5 @@
 # MercadoBitcoin_API
-# Author: Wesdras Alves
+# Author: Helamã Borges
 
 Um projeto com um conjunto de class bastante simplificadas, com metodos para fazer seus trades e acompanhar
 os seus dados no Mercado Bitcoin, pronto para integrar no seu sistema ou implementar um BOT fazendo uso dos mesmos. 
